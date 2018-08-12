@@ -6,18 +6,22 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 
 public class BackgroundService extends Service {
+
+    protected ConnectionReciever connectionReciever;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        this.connectionReciever = new ConnectionReciever();
         IntentFilter screenStateFilter = new IntentFilter();
         screenStateFilter.addAction(Intent.ACTION_SCREEN_ON);
         screenStateFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(mScreenStateReceiver, screenStateFilter);
+        registerReceiver(connectionReciever, screenStateFilter);
     }
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(mScreenStateReceiver);
+        unregisterReceiver(connectionReciever);
     }
 
     @Override
