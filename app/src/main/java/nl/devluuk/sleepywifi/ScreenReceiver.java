@@ -3,33 +3,32 @@ package nl.devluuk.sleepywifi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
-import android.content.Context;
+import android.os.IBinder;
 import android.util.Log;
 
-public class ConnectionReciever extends BroadcastReceiver {
+import static android.app.Service.START_STICKY;
+
+public class ScreenReceiver extends BroadcastReceiver {
+
+    public static boolean wasScreenOn = true;
     private WifiManager wifiManager;
-    private static final String TAG = ConnectionReciever.class.getSimpleName();
+
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
 
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-
-
         boolean wifiEnabled = wifiManager.isWifiEnabled();
-        Log.i(TAG, String.valueOf(wifiEnabled));
-
-        if(wifiEnabled) {
-            wifiManager.setWifiEnabled(false);
-        }
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-            if(wifiEnabled) {
+            if(wifiManager.isWifiEnabled()) {
                 wifiManager.setWifiEnabled(false);
+                wasScreenOn = false;
             }
         } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-
+            wifiManager.setWifiEnabled(true);
+            wasScreenOn = true;
         }
     }
+
 }

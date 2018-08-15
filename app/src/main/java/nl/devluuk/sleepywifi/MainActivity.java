@@ -1,26 +1,32 @@
 package nl.devluuk.sleepywifi;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    BroadcastReceiver networkReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extras = intent.getExtras();
+            if (extras == null) {
+                return;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-        wifiManager.setWifiEnabled(true);
-        wifiManager.setWifiEnabled(false);
-
-        boolean wifiEnabled = wifiManager.isWifiEnabled();
-
-        if(wifiEnabled) {
-            wifiManager.setWifiEnabled(false);
-        }
+        startService(new Intent(this, BackgroundService.class));
     }
 }
