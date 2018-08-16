@@ -6,4 +6,4 @@ this app works for Android devices with version 8.0 or higher.
 SleepyWifi is licensed under GPL-3.0 or later.
 
 ## Author
-SleepyWifi is written by [Devluuk](https://www.luukpeterse.nl "Devluuk Homepage")
+SleepyWifi is written by [Devluuk](https://luukpeterse.nl "Devluuk Homepage")
