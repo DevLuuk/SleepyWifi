@@ -25,7 +25,11 @@ public class BackgroundService extends Service {
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(screenReciever);
+        if (screenReciever != null) {
+            unregisterReceiver(screenReciever);
+            screenReciever = null;
+        }
+        super.onDestroy();
     }
 
     @Override

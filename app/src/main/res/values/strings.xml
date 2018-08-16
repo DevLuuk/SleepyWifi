@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SleepyWifi</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>
