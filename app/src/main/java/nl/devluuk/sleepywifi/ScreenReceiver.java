@@ -7,12 +7,10 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.util.Log;
 
-import static android.app.Service.START_STICKY;
-
 public class ScreenReceiver extends BroadcastReceiver {
 
-    public static boolean wasScreenOn = true;
     private WifiManager wifiManager;
+    boolean wifiWasOn = false;
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -23,12 +21,14 @@ public class ScreenReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
             if (wifiManager.isWifiEnabled()) {
                 wifiManager.setWifiEnabled(false);
-                wasScreenOn = false;
+                wifiWasOn = true;
+            } else {
+                wifiWasOn = false;
             }
-        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-            wifiManager.setWifiEnabled(true);
-            wasScreenOn = true;
+        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)  && wifiWasOn) {
+                wifiManager.setWifiEnabled(true);
         }
+
     }
 
 }
