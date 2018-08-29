@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-
 public class OnStart extends BroadcastReceiver {
 
     private static final String TAG = OnStart.class.getSimpleName();

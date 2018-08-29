@@ -9,9 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +31,7 @@ public class MainActivity extends Activity {
 
         final ImageView imageButton = findViewById(R.id.powerButton);
         getStatus();
+        playOrPauseService(imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +49,7 @@ public class MainActivity extends Activity {
             stopService(new Intent(this, BackgroundService.class));
 
             grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
-            makeGrayIcon(grayIcon);
+            makeGrayIcon(grayIcon, 0);
             image.setImageDrawable(grayIcon);
 
             stateText.setText("Current state is: " + setState());
@@ -75,9 +74,9 @@ public class MainActivity extends Activity {
         return false;
     }
 
-    private Drawable makeGrayIcon(Drawable icon){
+    private Drawable makeGrayIcon(Drawable icon, int colorID) {
         ColorMatrix matrix = new ColorMatrix();
-        matrix.setSaturation(0);
+        matrix.setSaturation(colorID);
 
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
         icon.setColorFilter(filter);
