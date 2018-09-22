@@ -16,6 +16,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,18 +31,13 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     public Drawable playIcon;
     public Drawable grayIcon;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkPrefStatus();
-
         final ImageView imageButton = findViewById(R.id.powerButton);
-        playOrPauseService(imageButton);
-
-        startService(new Intent(this, BackgroundService.class));
+        checkPrefOnStart(imageButton);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,15 +47,12 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         });
 
     }
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         status = prefs.getBoolean("app_state", true);
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(Intent.ACTION_SCREEN_OFF);
-//        filter.addAction(Intent.ACTION_SCREEN_ON);
-//        registerReceiver(this.screenReciever, filter);
     }
 
     @Override
@@ -71,17 +64,17 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
     public void playOrPauseService(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Check the current state inside the sharedprefs
         if (checkPrefStatus()) {
             stopService(new Intent(this, BackgroundService.class));
 
-            //setPreference(false);
+            setPreference(false);
 
             // Show a Toast message with the current state for debugging
-            setStateInToast();
+            //setStateInToast();
 
             grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
             makeGrayIcon(grayIcon, 0);
@@ -92,9 +85,9 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         } else {
             startService(new Intent(this, BackgroundService.class));
 
-            //setPreference(true);
+            setPreference(true);
             // Show a Toast message with the current state for debugging
-            setStateInToast();
+            //setStateInToast();
 
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
 
@@ -102,6 +95,30 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             // Update current state text
             setStateText(stateText);
         }
+    }
+
+    public void checkPrefOnStart(ImageView image) {
+        final TextView stateText = findViewById(R.id.OnOffText);
+
+        if (checkPrefStatus()) {
+            startService(new Intent(this, BackgroundService.class));
+            //setPreference(true);
+            //setStateInToast();
+            Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
+            playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
+
+            image.setImageDrawable(playIcon);
+            Log.i(TAG, "service is started");
+            // Update current state text
+            setStateText(stateText);
+        } else {
+            //setStateInToast();
+            grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
+            makeGrayIcon(grayIcon, 0);
+            image.setImageDrawable(grayIcon);
+            setStateText(stateText);
+        }
+
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -114,18 +131,16 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         return false;
     }
 
-
-
     public boolean getBackgroundStatus() {
         return status = isMyServiceRunning(BackgroundService.class);
     }
 
-    public boolean checkPrefStatus(){
+    public boolean checkPrefStatus() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         return status = prefs.getBoolean("app_state", true);
     }
 
-    public void setPreference(boolean status){
+    public void setPreference(boolean status) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
@@ -135,12 +150,21 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
     private void setStateText(TextView stateText) {
         if (checkPrefStatus()) {
-            state = "OFF";
-        } else {
             state = "ON";
+        } else {
+            state = "OFF";
         }
         stateText.setText("Current state is: " + state);
     }
+
+//    private void setStateText(TextView stateText) {
+//        if (checkPrefStatus()) {
+//            state = "OFF";
+//        } else {
+//            state = "ON";
+//        }
+//        stateText.setText("Current state is: " + state);
+//    }
 
     private void setStateInToast() {
         if (checkPrefStatus()) {

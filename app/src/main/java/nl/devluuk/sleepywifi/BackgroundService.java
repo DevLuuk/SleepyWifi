@@ -16,15 +16,15 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         final IntentFilter filter = new IntentFilter();
         this.screenReciever = new ScreenReceiver();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(this.screenReciever, filter);
-        setPreference(true);
-        Log.i(TAG, "BackgroundService is on");
+//            setPreference(true);
+//            Log.i(TAG, "BackgroundService is on");
+
     }
 
     @Override
@@ -34,17 +34,9 @@ public class BackgroundService extends Service {
             unregisterReceiver(screenReciever);
             screenReciever = null;
         }
-        setPreference(false);
-        Log.i(TAG, "BackgroundService is off");
+        //setPreference(false);
+        //Log.i(TAG, "BackgroundService is off");
         super.onDestroy();
-    }
-
-    public void setPreference(boolean status){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.putBoolean("app_state", status);
-        editor.apply();
     }
 
     @Override
