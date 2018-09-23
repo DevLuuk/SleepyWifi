@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public String state;
@@ -55,12 +55,12 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         status = prefs.getBoolean("app_state", true);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        PreferenceManager.getDefaultSharedPreferences(this)
+//                .unregisterOnSharedPreferenceChangeListener(this);
+//    }
 
     public void playOrPauseService(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
@@ -73,9 +73,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
             setPreference(false);
 
-            // Show a Toast message with the current state for debugging
-            //setStateInToast();
-
             grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
             makeGrayIcon(grayIcon, 0);
             image.setImageDrawable(grayIcon);
@@ -86,8 +83,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             startService(new Intent(this, BackgroundService.class));
 
             setPreference(true);
-            // Show a Toast message with the current state for debugging
-            //setStateInToast();
 
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
 
@@ -103,8 +98,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         if (checkPrefStatus()) {
             startService(new Intent(this, BackgroundService.class));
             //setPreference(true);
-            //setStateInToast();
-            Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
 
             image.setImageDrawable(playIcon);
@@ -112,7 +106,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             // Update current state text
             setStateText(stateText);
         } else {
-            //setStateInToast();
             grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
             makeGrayIcon(grayIcon, 0);
             image.setImageDrawable(grayIcon);
@@ -184,10 +177,10 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         return icon;
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("app_state")) {
-            sharedPreferences.getBoolean(key, true);
-        }
-    }
+//    @Override
+//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+//        if (key.equals("app_state")) {
+//            sharedPreferences.getBoolean(key, true);
+//        }
+//    }
 }

@@ -20,7 +20,6 @@ public class ScreenReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, final Intent intent) {
 
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
         //boolean wifiEnabled = wifiManager.isWifiEnabled();
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
