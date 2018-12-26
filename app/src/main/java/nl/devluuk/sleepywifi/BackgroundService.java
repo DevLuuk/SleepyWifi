@@ -50,7 +50,7 @@ public class BackgroundService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(this.screenReciever, filter);
         try {
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(10);
             stopForeground(true);
         } catch (InterruptedException e) {
             e.printStackTrace();
