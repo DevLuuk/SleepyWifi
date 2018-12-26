@@ -147,7 +147,7 @@ public class MainActivity extends Activity {
         } else {
             state = "OFF";
         }
-        stateText.setText("Current state is: " + state);
+        stateText.setText("The app service is: " + state);
     }
 
 //    private void setStateText(TextView stateText) {
