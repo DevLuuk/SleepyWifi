@@ -17,6 +17,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,7 +48,6 @@ public class MainActivity extends Activity {
                 playOrPauseService(imageButton);
             }
         });
-
     }
 
     @Override
@@ -61,6 +63,25 @@ public class MainActivity extends Activity {
 //        PreferenceManager.getDefaultSharedPreferences(this)
 //                .unregisterOnSharedPreferenceChangeListener(this);
 //    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuItemSelected = item.getItemId();
+        if (menuItemSelected == R.id.action_about) {
+            Intent aboutActivity = new Intent(this, AboutActivity.class);
+            startActivity(aboutActivity);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void playOrPauseService(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);

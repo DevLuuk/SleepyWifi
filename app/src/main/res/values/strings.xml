@@ -3,4 +3,9 @@
     <string name="title_activity_settings">Settings</string>
     <string name="on">On</string>
     <string name="off">Off</string>
+    <string name="about">About</string>
+    <string name="action_about">About SleepyWifi</string>
+    <string name="settings">Settings</string>
+    <string name="action_settings">SleepyWifi Settings</string>
+    <string name="image_description">App Logo</string>
 </resources>

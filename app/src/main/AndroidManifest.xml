@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.devluuk.sleepywifi">
 
-    <!--<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />-->
+    <!-- <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -13,12 +13,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        android:supportsRtl="true">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden">
-
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,16 +28,28 @@
 
         <service android:name=".BackgroundService" />
 
-        <receiver android:name=".OnStart" android:enabled="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+        <receiver
+            android:name=".OnStart"
+            android:enabled="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
         <receiver android:name=".ScreenReceiver" />
 
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/action_about"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
