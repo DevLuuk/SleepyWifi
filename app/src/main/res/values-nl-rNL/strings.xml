@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SleepyWifi</string>
+    <string name="on">Aan</string>
+    <string name="off">Uit</string>
+    <string name="about">Over</string>
+    <string name="action_about">Over SleepyWifi</string>
+    <string name="settings">Instellingen</string>
+    <string name="action_settings">SleepyWifi Instellingen</string>
+    <string name="about_info">SleepyWifi Informatie</string>
+    <string name="about_license">Licensie</string>
+    <string name="about_author">Auteur</string>
+    <string name="about_licenseT">SleepyWifi heeft de GPL-3.0 of later licensie</string>
+    <string name="about_authorT">SleepyWifi is ontwikkeld door Devluuk</string>
+    <string name="about_infoT">Deze Android app brengt de optie \'Zet Wifi uit als de telefoon in slaapstand is\' terug voor android 8.1 of nieuwer.</string>
+    <string name="app_state">"De app service staat: "</string>
+</resources>

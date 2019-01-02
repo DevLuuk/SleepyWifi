@@ -19,8 +19,11 @@
 
     <ImageView
         android:id="@+id/powerButton"
-        android:layout_width="128dp"
-        android:layout_height="147dp"
-        android:layout_centerInParent="true"
+        android:layout_width="146dp"
+        android:layout_height="164dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="211dp"
+        android:contentDescription="@string/image_description"
         android:src="@drawable/ic_launcher_round" />
 </RelativeLayout>
