@@ -164,30 +164,13 @@ public class MainActivity extends Activity {
 
     private void setStateText(TextView stateText) {
         if (checkPrefStatus()) {
-            state = "ON";
+            state = getResources().getString(R.string.on);
         } else {
-            state = "OFF";
+            state = getResources().getString(R.string.off);
         }
-        stateText.setText("The app service is: " + state);
+        stateText.setText(getResources().getString(R.string.app_state) + " " + state);
     }
 
-//    private void setStateText(TextView stateText) {
-//        if (checkPrefStatus()) {
-//            state = "OFF";
-//        } else {
-//            state = "ON";
-//        }
-//        stateText.setText("Current state is: " + state);
-//    }
-
-    private void setStateInToast() {
-        if (checkPrefStatus()) {
-            Toast.makeText(this, "Value is true", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Value is false", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
     private Drawable makeGrayIcon(Drawable icon, int colorID) {
         ColorMatrix matrix = new ColorMatrix();
