@@ -8,12 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class BackgroundService extends Service {
@@ -49,16 +51,32 @@ public class BackgroundService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(this.screenReciever, filter);
-        try {
-            TimeUnit.SECONDS.sleep(10);
-            stopForeground(true);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new DismissNotification().execute();
         // remove start notification
-        stopForeground(false);
-        //NotificationManager.cancel(1);
+        //stopForeground(false);
     }
+
+    private class DismissNotification extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            try {
+                TimeUnit.SECONDS.sleep(5);
+                //Thread.sleep(5000);
+                stopForeground(true);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Void... progress) {
+
+        }
+
+        protected void onPostExecute(Void result) {
+
+        }
+    }
+
 
     @Override
     public void onDestroy() {
@@ -76,6 +94,7 @@ public class BackgroundService extends Service {
         //Log.i(TAG, "BackgroundService is off");
         super.onDestroy();
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
