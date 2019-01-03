@@ -75,6 +75,11 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuItemSelected = item.getItemId();
+        if (menuItemSelected == R.id.action_settings) {
+            Intent settingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(settingsActivity);
+            return true;
+        }
         if (menuItemSelected == R.id.action_about) {
             Intent aboutActivity = new Intent(this, AboutActivity.class);
             startActivity(aboutActivity);

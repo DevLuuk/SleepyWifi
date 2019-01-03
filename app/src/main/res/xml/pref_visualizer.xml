@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/pref_enable_bluetooth"
+        android:title="@string/pref_description_enable_bluetooth" />
+
+    <ListPreference
+        android:defaultValue="3"
+        android:dialogTitle="@string/pref_keep_wifi_on"
+        android:entries="@array/pref_list_titles"
+        android:entryValues="@array/pref_list_values"
+        android:key="@string/key_wifi_setting"
+        android:summary="@string/pref_keep_wifi_on"
+        android:title="@string/pref_keep_wifi_on" />
+</PreferenceScreen>
