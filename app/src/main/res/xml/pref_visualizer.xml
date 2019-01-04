@@ -2,8 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
         android:defaultValue="false"
-        android:key="@string/pref_enable_bluetooth"
-        android:title="@string/pref_description_enable_bluetooth" />
+        android:key="gps_state"
+        android:title="@string/pref_gps_title"
+        android:summary="@string/pref_description_enable_gps"/>
 
     <ListPreference
         android:defaultValue="3"

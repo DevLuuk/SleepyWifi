@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        status = prefs.getBoolean("app_state", true);
+        status = prefs.getBoolean(getResources().getString(R.string.app_state), true);
     }
 
 //    @Override
@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
         //prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Check the current state inside the sharedprefs
-        if (checkPrefStatus()) {
+        if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             stopService(new Intent(this, BackgroundService.class));
 
             setPreference(false);
@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
     public void checkPrefOnStart(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
 
-        if (checkPrefStatus()) {
+        if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             startService(new Intent(this, BackgroundService.class));
             //setPreference(true);
             //Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
@@ -154,26 +154,26 @@ public class MainActivity extends Activity {
         return status = isMyServiceRunning(BackgroundService.class);
     }
 
-    public boolean checkPrefStatus() {
+    public boolean checkPrefStatus(String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return status = prefs.getBoolean("app_state", true);
+        return status = prefs.getBoolean(key, true);
     }
 
     public void setPreference(boolean status) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
-        editor.putBoolean("app_state", status);
+        editor.putBoolean(getResources().getString(R.string.app_state), status);
         editor.apply();
     }
 
     private void setStateText(TextView stateText) {
-        if (checkPrefStatus()) {
+        if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             state = getResources().getString(R.string.on);
         } else {
             state = getResources().getString(R.string.off);
         }
-        stateText.setText(getResources().getString(R.string.app_state) + " " + state);
+        stateText.setText(getResources().getString(R.string.app_state_title) + " " + state);
     }
 
 
