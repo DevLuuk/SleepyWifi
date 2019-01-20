@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
 
     public void playOrPauseService(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
+        final TextView stateDesc = findViewById(R.id.OnOffDescription);
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //prefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -103,7 +104,7 @@ public class MainActivity extends Activity {
             makeGrayIcon(grayIcon, 0);
             image.setImageDrawable(grayIcon);
             // Update current state text
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
 
         } else {
             startService(new Intent(this, BackgroundService.class));
@@ -114,12 +115,13 @@ public class MainActivity extends Activity {
 
             image.setImageDrawable(playIcon);
             // Update current state text
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
         }
     }
 
     public void checkPrefOnStart(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
+        final TextView stateDesc = findViewById(R.id.OnOffDescription);
 
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             startService(new Intent(this, BackgroundService.class));
@@ -130,12 +132,12 @@ public class MainActivity extends Activity {
             image.setImageDrawable(playIcon);
             Log.i(TAG, "service is started");
             // Update current state text
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
         } else {
             grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
             makeGrayIcon(grayIcon, 0);
             image.setImageDrawable(grayIcon);
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
         }
 
     }
@@ -167,13 +169,17 @@ public class MainActivity extends Activity {
         editor.apply();
     }
 
-    private void setStateText(TextView stateText) {
+    private void setStateText(TextView stateText, TextView stateDesc) {
+        String stateDescription;
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             state = getResources().getString(R.string.on);
+            stateDescription = getResources().getString(R.string.off);
         } else {
             state = getResources().getString(R.string.off);
+            stateDescription = getResources().getString(R.string.on);
         }
         stateText.setText(getResources().getString(R.string.app_state_title) + " " + state);
+        stateDesc.setText(getResources().getString(R.string.app_state_desc1) + " " + stateDescription + " " + getResources().getString(R.string.app_state_desc2));
     }
 
 
