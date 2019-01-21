@@ -16,8 +16,6 @@
     <string name="app_state_title">"De app service staat: "</string>
     <string name="title_activity_settings">Instellingen</string>
     <string name="pref_header_general">Standaard</string>
-    <string name="pref_description_enable_gps">Zet GPS uit in slaapmodus</string>
-    <string name="pref_gps_title">Zet GPS slapen aan</string>
     <string name="pref_description_enable_bluetooth">Zet Bluetooth uit in slaapmodus</string>
     <string name="pref_bluetooth_title">Zet Bluetooth slapen aan</string>
     <string name="pref_keep_wifi_on">Hou de Wifi aan tijdens slaapmodus</string>
