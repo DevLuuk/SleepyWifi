@@ -3,17 +3,51 @@
     <string name="settings">Settings</string>
     <string name="on">ON</string>
     <string name="off">OFF</string>
-    <string name="app_state">The app service is: </string>
+    <string name="app_state_title">The app service is: </string>
+    <string name="app_state_desc1">Wifi is turned </string>
+    <string name="app_state_desc2">when the phone is in sleepmode</string>
+    <!-- App Key -->
+    <string name="app_state" translatable="false">app_state</string>
+    <!-- /Key -->
     <string name="about">About</string>
     <string name="action_about">About SleepyWifi</string>
     <string name="action_settings">SleepyWifi Settings</string>
     <string name="image_description" translatable="false">App Logo</string>
 
-    // About activity
+    <!-- About activity -->
     <string name="about_info">SleepyWifi Info</string>
     <string name="about_license">License</string>
     <string name="about_author">Author</string>
     <string name="about_infoT">This Android app brings back the \'turn wifi off when the phone is in sleepmode\' option for Android 8.1 or newer.</string>
     <string name="about_licenseT">SleepyWifi is licensed under GPL-3.0 or later.</string>
     <string name="about_authorT">SleepyWifi is developed by Devluuk</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+
+    <!--Bluetooth Key -->
+    <string name="bluetooth_state" translatable="false">bluetooth_state</string>
+    <!-- /Key -->
+    <string name="pref_bluetooth_title">Enable Bluetooth Sleeping</string>
+    <string name="pref_description_enable_bluetooth">Turn Bluetooth off when the phone is in sleepmode
+    </string>
+
+    <string name="pref_keep_wifi_on">Keep Wifi on during sleep</string>
+    <!-- Wifi Key -->
+    <string name="key_wifi_setting" translatable="false">wifi_state</string>
+    <!-- /Key -->
+    <string-array name="pref_list_titles" translatable="false">
+        <item>Always</item>
+        <item>Only when plugged in</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_list_values" translatable="false">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
 </resources>

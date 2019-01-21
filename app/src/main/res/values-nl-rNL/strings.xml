@@ -13,5 +13,12 @@
     <string name="about_licenseT">SleepyWifi heeft de GPL-3.0 of later licensie</string>
     <string name="about_authorT">SleepyWifi is ontwikkeld door Devluuk</string>
     <string name="about_infoT">Deze Android app brengt de optie \'Zet Wifi uit als de telefoon in slaapstand is\' terug voor android 8.1 of nieuwer.</string>
-    <string name="app_state">"De app service staat: "</string>
+    <string name="app_state_title">"De app service staat: "</string>
+    <string name="title_activity_settings">Instellingen</string>
+    <string name="pref_header_general">Standaard</string>
+    <string name="pref_description_enable_bluetooth">Zet Bluetooth uit in slaapmodus</string>
+    <string name="pref_bluetooth_title">Zet Bluetooth slapen aan</string>
+    <string name="pref_keep_wifi_on">Hou de Wifi aan tijdens slaapmodus</string>
+    <string name="app_state_desc1">Wifi staat</string>
+    <string name="app_state_desc2">Wanneer de telefoon in slaapmodus is</string>
 </resources>

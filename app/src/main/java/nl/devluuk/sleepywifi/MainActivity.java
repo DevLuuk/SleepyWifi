@@ -2,15 +2,9 @@ package nl.devluuk.sleepywifi;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -23,10 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public String state;
@@ -54,15 +47,23 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        status = prefs.getBoolean("app_state", true);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+        status = prefs.getBoolean(getResources().getString(R.string.app_state), true);
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        PreferenceManager.getDefaultSharedPreferences(this)
-//                .unregisterOnSharedPreferenceChangeListener(this);
-//    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
 
 
     @Override
@@ -75,6 +76,11 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuItemSelected = item.getItemId();
+        if (menuItemSelected == R.id.action_settings) {
+            Intent settingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(settingsActivity);
+            return true;
+        }
         if (menuItemSelected == R.id.action_about) {
             Intent aboutActivity = new Intent(this, AboutActivity.class);
             startActivity(aboutActivity);
@@ -85,11 +91,10 @@ public class MainActivity extends Activity {
 
     public void playOrPauseService(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //prefs.registerOnSharedPreferenceChangeListener(this);
+        final TextView stateDesc = findViewById(R.id.OnOffDescription);
 
         // Check the current state inside the sharedprefs
-        if (checkPrefStatus()) {
+        if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             stopService(new Intent(this, BackgroundService.class));
 
             setPreference(false);
@@ -98,7 +103,7 @@ public class MainActivity extends Activity {
             makeGrayIcon(grayIcon, 0);
             image.setImageDrawable(grayIcon);
             // Update current state text
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
 
         } else {
             startService(new Intent(this, BackgroundService.class));
@@ -109,14 +114,18 @@ public class MainActivity extends Activity {
 
             image.setImageDrawable(playIcon);
             // Update current state text
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
         }
     }
 
     public void checkPrefOnStart(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
+        final TextView stateDesc = findViewById(R.id.OnOffDescription);
 
-        if (checkPrefStatus()) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
+        if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             startService(new Intent(this, BackgroundService.class));
             //setPreference(true);
             //Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
@@ -125,12 +134,12 @@ public class MainActivity extends Activity {
             image.setImageDrawable(playIcon);
             Log.i(TAG, "service is started");
             // Update current state text
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
         } else {
             grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
             makeGrayIcon(grayIcon, 0);
             image.setImageDrawable(grayIcon);
-            setStateText(stateText);
+            setStateText(stateText, stateDesc);
         }
 
     }
@@ -149,26 +158,30 @@ public class MainActivity extends Activity {
         return status = isMyServiceRunning(BackgroundService.class);
     }
 
-    public boolean checkPrefStatus() {
+    public boolean checkPrefStatus(String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return status = prefs.getBoolean("app_state", true);
+        return status = prefs.getBoolean(key, true);
     }
 
     public void setPreference(boolean status) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
-        editor.putBoolean("app_state", status);
+        editor.putBoolean(getResources().getString(R.string.app_state), status);
         editor.apply();
     }
 
-    private void setStateText(TextView stateText) {
-        if (checkPrefStatus()) {
+    private void setStateText(TextView stateText, TextView stateDesc) {
+        String stateDescription;
+        if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             state = getResources().getString(R.string.on);
+            stateDescription = getResources().getString(R.string.off);
         } else {
             state = getResources().getString(R.string.off);
+            stateDescription = getResources().getString(R.string.on);
         }
-        stateText.setText(getResources().getString(R.string.app_state) + " " + state);
+        stateText.setText(getResources().getString(R.string.app_state_title) + " " + state);
+        stateDesc.setText(getResources().getString(R.string.app_state_desc1) + " " + stateDescription + " " + getResources().getString(R.string.app_state_desc2));
     }
 
 
@@ -181,10 +194,23 @@ public class MainActivity extends Activity {
         return icon;
     }
 
-//    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//        if (key.equals("app_state")) {
-//            sharedPreferences.getBoolean(key, true);
-//        }
-//    }
+    /**
+     * Called when a shared preference is changed, added, or removed. This
+     * may be called even if a preference is set to its existing value.
+     *
+     * <p>This callback will be run on your main thread.
+     *
+     * @param sharedPreferences The {@link SharedPreferences} that received
+     *                          the change.
+     * @param key               The key of the preference that was changed, added, or
+     */
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.bluetooth_state))){
+            sharedPreferences.getBoolean(key, false);
+        }
+        if (key.equals("app_state")) {
+           sharedPreferences.getBoolean(key, true);
+       }
+    }
 }
