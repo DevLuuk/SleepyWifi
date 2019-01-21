@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public String state;
@@ -54,15 +54,16 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         status = prefs.getBoolean(getResources().getString(R.string.app_state), true);
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        PreferenceManager.getDefaultSharedPreferences(this)
-//                .unregisterOnSharedPreferenceChangeListener(this);
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
 
 
     @Override
@@ -91,8 +92,6 @@ public class MainActivity extends Activity {
     public void playOrPauseService(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
         final TextView stateDesc = findViewById(R.id.OnOffDescription);
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Check the current state inside the sharedprefs
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
@@ -122,6 +121,9 @@ public class MainActivity extends Activity {
     public void checkPrefOnStart(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
         final TextView stateDesc = findViewById(R.id.OnOffDescription);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             startService(new Intent(this, BackgroundService.class));
@@ -192,10 +194,23 @@ public class MainActivity extends Activity {
         return icon;
     }
 
-//    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//        if (key.equals("app_state")) {
-//            sharedPreferences.getBoolean(key, true);
-//        }
-//    }
+    /**
+     * Called when a shared preference is changed, added, or removed. This
+     * may be called even if a preference is set to its existing value.
+     *
+     * <p>This callback will be run on your main thread.
+     *
+     * @param sharedPreferences The {@link SharedPreferences} that received
+     *                          the change.
+     * @param key               The key of the preference that was changed, added, or
+     */
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.bluetooth_state))){
+            sharedPreferences.getBoolean(key, false);
+        }
+        if (key.equals("app_state")) {
+           sharedPreferences.getBoolean(key, true);
+       }
+    }
 }

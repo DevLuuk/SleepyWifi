@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -51,12 +52,20 @@ public class BackgroundService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(this.screenReciever, filter);
-        new DismissNotification().execute();
+        new DismissNotification(this).execute();
         // remove start notification
         //stopForeground(false);
     }
 
     private class DismissNotification extends AsyncTask<Void, Void, Void> {
+
+        private WeakReference<BackgroundService> activityReference;
+
+        // only retain a weak reference to the activity
+        DismissNotification(BackgroundService context) {
+            activityReference = new WeakReference<>(context);
+        }
+
         protected Void doInBackground(Void... params) {
             try {
                 TimeUnit.SECONDS.sleep(5);
