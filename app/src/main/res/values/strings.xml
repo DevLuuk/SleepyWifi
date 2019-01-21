@@ -28,12 +28,6 @@
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
-    <!-- GPS Key -->
-    <string name="gps_state" translatable="false">gps_state</string>
-    <!-- /Key -->
-    <string name="pref_gps_title">Enable GPS Sleeping</string>
-    <string name="pref_description_enable_gps">Turn GPS off when the phone is in sleepmode
-    </string>
 
     <!--Bluetooth Key -->
     <string name="bluetooth_state" translatable="false">bluetooth_state</string>

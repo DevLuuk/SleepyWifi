@@ -59,6 +59,13 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     }
 
     @Override
+    protected void onPause(){
+        super.onPause();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this)
