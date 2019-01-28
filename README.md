@@ -14,4 +14,4 @@ Google has removed the 'turn wifi off when the phone is in sleepmode' options in
 SleepyWifi is licensed under GPL-3.0 or later.
 
 ## Author
-SleepyWifi is written by [Devluuk](https://luukpeterse.nl "Devluuk Homepage")
+SleepyWifi is written by Devluuk
