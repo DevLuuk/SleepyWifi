@@ -1,19 +1,20 @@
 package nl.devluuk.sleepywifi;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ScreenReceiver extends BroadcastReceiver {
 
     private WifiManager wifiManager;
+    private PowerManager powerManager;
     private BluetoothAdapter bluetoothAdapter;
     boolean wifiWasOn = false;
     boolean bluetoothWasOn = false;
@@ -25,8 +26,10 @@ public class ScreenReceiver extends BroadcastReceiver {
 
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         bluetoothState = prefs.getBoolean(context.getResources().getString(R.string.bluetooth_state), false);
+
 
         PackageManager pm = context.getPackageManager();
         final boolean deviceHasBluetooth = pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH);
