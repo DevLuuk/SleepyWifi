@@ -20,7 +20,7 @@
     <string name="about_author">Author</string>
     <string name="about_infoT">This Android app brings back the \'turn wifi off when the phone is in sleepmode\' option for Android 8.1 or newer.</string>
     <string name="about_licenseT">SleepyWifi is licensed under GPL-3.0 or later.</string>
-    <string name="about_authorT">SleepyWifi is developed by Devluuk</string>
+    <string name="about_authorT">SleepyWifi is developed by <u>Devluuk</u></string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->

@@ -37,6 +37,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="240dp"
+        android:fontFamily="sans-serif-medium"
         android:text="@string/about_author"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="30sp" />
@@ -48,7 +49,11 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="220dp"
+        android:autoLink="web"
+        android:linksClickable="true"
         android:text="@string/about_authorT"
+        android:textAllCaps="false"
+        android:textColor="@color/navigationBarColor"
         android:textSize="16sp" />
 
     <TextView
@@ -58,6 +63,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="160dp"
+        android:fontFamily="sans-serif-medium"
         android:text="@string/about_license"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="30sp" />
