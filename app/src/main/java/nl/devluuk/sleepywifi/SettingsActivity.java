@@ -25,6 +25,5 @@ public class SettingsActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
-
     }
 }
