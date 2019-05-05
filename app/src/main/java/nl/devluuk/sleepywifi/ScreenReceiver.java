@@ -23,6 +23,7 @@ public class ScreenReceiver extends BroadcastReceiver {
     boolean wifiWasOn = false;
     boolean bluetoothWasOn = false;
     boolean bluetoothState;
+    boolean appState;
     private static final String TAG = ScreenReceiver.class.getSimpleName();
 
     @Override
@@ -32,29 +33,29 @@ public class ScreenReceiver extends BroadcastReceiver {
         powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         bluetoothState = prefs.getBoolean(context.getResources().getString(R.string.bluetooth_state), false);
-
+        appState = prefs.getBoolean(context.getResources().getString(R.string.app_state), true);
 
         PackageManager pm = context.getPackageManager();
         final boolean deviceHasBluetooth = pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH);
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-            if (wifiManager.isWifiEnabled()) {
-                new Sleep(this).execute();
-                wifiWasOn = true;
-            } else {
-                wifiWasOn = false;
-            }
-            if (bluetoothState) {
-                if (deviceHasBluetooth) {
-                    if (bluetoothAdapter.isEnabled()) {
-                        bluetoothAdapter.disable();
-                        Log.v(TAG, "Bluetooth is Sleeping");
-                        bluetoothWasOn = true;
-                    } else {
-                        bluetoothWasOn = false;
+                if (wifiManager.isWifiEnabled()) {
+                    new Sleep(this).execute();
+                    wifiWasOn = true;
+                } else {
+                    wifiWasOn = false;
+                }
+                if (bluetoothState) {
+                    if (deviceHasBluetooth) {
+                        if (bluetoothAdapter.isEnabled()) {
+                            bluetoothAdapter.disable();
+                            Log.v(TAG, "Bluetooth is Sleeping");
+                            bluetoothWasOn = true;
+                        } else {
+                            bluetoothWasOn = false;
+                        }
                     }
                 }
-            }
         } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
             if (wifiWasOn) {
                 wifiManager.setWifiEnabled(true);
