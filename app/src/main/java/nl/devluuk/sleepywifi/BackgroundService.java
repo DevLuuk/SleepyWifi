@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 public class BackgroundService extends Service {
 
-    private static final String TAG = BackgroundService.class.getSimpleName();
     protected ScreenReceiver screenReciever;
 
     @Override
