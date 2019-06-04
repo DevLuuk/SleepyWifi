@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 public class ScreenReceiver extends BroadcastReceiver {
 
     private WifiManager wifiManager;
-    private PowerManager powerManager;
     private BluetoothAdapter bluetoothAdapter;
     boolean wifiWasOn = false;
     boolean bluetoothWasOn = false;
@@ -30,7 +29,6 @@ public class ScreenReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, final Intent intent) {
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         bluetoothState = prefs.getBoolean(context.getResources().getString(R.string.bluetooth_state), false);
         appState = prefs.getBoolean(context.getResources().getString(R.string.app_state), true);
