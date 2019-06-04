@@ -3,9 +3,14 @@
     <string name="settings">Settings</string>
     <string name="on">ON</string>
     <string name="off">OFF</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="app_state_title">The app service is: </string>
     <string name="app_state_desc1">Wifi is turned </string>
     <string name="app_state_desc2">when the phone is in sleepmode</string>
+    <string name="request_battery_opt">Request Ignore battery optimization for this app</string>
+    <string name="warning_battery_opt">This app will not work correctly until you grant this app the \'Ignore battery optimization\' permission</string>
+
     <!-- App Key -->
     <string name="app_state" translatable="false">app_state</string>
     <!-- /Key -->
@@ -24,10 +29,8 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
-
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
-
 
     <!--Bluetooth Key -->
     <string name="bluetooth_state" translatable="false">bluetooth_state</string>
