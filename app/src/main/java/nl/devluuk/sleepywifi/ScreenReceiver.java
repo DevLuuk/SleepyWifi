@@ -22,6 +22,7 @@ public class ScreenReceiver extends BroadcastReceiver {
     boolean wifiWasOn = false;
     boolean bluetoothWasOn = false;
     boolean bluetoothState;
+    int delayTime;
     boolean appState;
     private static final String TAG = ScreenReceiver.class.getSimpleName();
 
@@ -32,6 +33,7 @@ public class ScreenReceiver extends BroadcastReceiver {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         bluetoothState = prefs.getBoolean(context.getResources().getString(R.string.bluetooth_state), false);
         appState = prefs.getBoolean(context.getResources().getString(R.string.app_state), true);
+        delayTime = prefs.getInt(context.getResources().getString(R.string.key_power_off_time), 1);
 
         PackageManager pm = context.getPackageManager();
         final boolean deviceHasBluetooth = pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH);
@@ -78,7 +80,7 @@ public class ScreenReceiver extends BroadcastReceiver {
 
         protected Void doInBackground(Void... params) {
             try {
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(delayTime);
                 wifiManager.setWifiEnabled(false);
             } catch (InterruptedException e) {
                 e.printStackTrace();

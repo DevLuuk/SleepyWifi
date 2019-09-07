@@ -25,4 +25,6 @@
     <string name="yes">Ja</string>
     <string name="warning_battery_opt">Deze app werkt niet goed todat je deze app toestemming geeft om batterij optimalizatie te negeren</string>
     <string name="request_battery_opt">Verzoek negeer batterij-optimalisatie voor deze app</string>
+    <string name="pref_delay_power_off">Stel het uitgaan van de WiFi uit</string>
+    <string name="pref_delay_power_off_detail">Kies hoe lang het duurt voordat de wifi uit gaat</string>
 </resources>
