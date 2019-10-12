@@ -50,7 +50,7 @@ public class ScreenReceiver extends BroadcastReceiver {
                     if (deviceHasBluetooth) {
                         if (bluetoothAdapter.isEnabled()) {
                             bluetoothAdapter.disable();
-                            Log.v(TAG, "Bluetooth is Sleeping");
+                            //Log.v(TAG, "Bluetooth is Sleeping");
                             bluetoothWasOn = true;
                         } else {
                             bluetoothWasOn = false;
