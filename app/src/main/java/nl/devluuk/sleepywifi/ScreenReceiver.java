@@ -50,7 +50,6 @@ public class ScreenReceiver extends BroadcastReceiver {
                     if (deviceHasBluetooth) {
                         if (bluetoothAdapter.isEnabled()) {
                             bluetoothAdapter.disable();
-                            //Log.v(TAG, "Bluetooth is Sleeping");
                             bluetoothWasOn = true;
                         } else {
                             bluetoothWasOn = false;
@@ -81,8 +80,10 @@ public class ScreenReceiver extends BroadcastReceiver {
 
         protected Void doInBackground(Void... params) {
             try {
+                Log.v(TAG, "Sleeping.......");
                 TimeUnit.SECONDS.sleep(delayTime);
                 wifiManager.setWifiEnabled(false);
+                Log.v(TAG, "Wifi is offfff");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
