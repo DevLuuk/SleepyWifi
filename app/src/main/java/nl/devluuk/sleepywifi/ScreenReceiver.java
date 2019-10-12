@@ -40,7 +40,8 @@ public class ScreenReceiver extends BroadcastReceiver {
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 if (wifiManager.isWifiEnabled()) {
-                    new Sleep(this).execute();
+                    //new Sleep(this).execute();
+                    wifiManager.setWifiEnabled(false);
                     wifiWasOn = true;
                 } else {
                     wifiWasOn = false;
