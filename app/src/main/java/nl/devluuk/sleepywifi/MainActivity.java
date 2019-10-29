@@ -2,14 +2,19 @@ package nl.devluuk.sleepywifi;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -26,6 +32,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     public Boolean status;
     public Drawable playIcon;
     public Drawable grayIcon;
+    private PowerManager powerManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +59,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
@@ -92,11 +99,9 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     public void playOrPauseService(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
         final TextView stateDesc = findViewById(R.id.OnOffDescription);
-
         // Check the current state inside the sharedprefs
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             stopService(new Intent(this, BackgroundService.class));
-
             setPreference(false);
 
             grayIcon = getResources().getDrawable(R.drawable.ic_launcher_round_gray, null);
@@ -107,7 +112,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
         } else {
             startService(new Intent(this, BackgroundService.class));
-
             setPreference(true);
 
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
@@ -118,17 +122,24 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
+    private void checkIgnoringBattery() {
+        String packageName = this.getPackageName();
+        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+            showAlertDialog(this);
+        }
+    }
+
     public void checkPrefOnStart(ImageView image) {
         final TextView stateText = findViewById(R.id.OnOffText);
         final TextView stateDesc = findViewById(R.id.OnOffDescription);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
+        powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
+            checkIgnoringBattery();
             startService(new Intent(this, BackgroundService.class));
-            //setPreference(true);
-            //Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
 
             image.setImageDrawable(playIcon);
@@ -152,6 +163,34 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             }
         }
         return false;
+    }
+
+    private void showAlertDialog(Context context) {
+        final Intent batteryIntent = new Intent();
+        AlertDialog.Builder batteryDialog = new AlertDialog.Builder(context);
+        batteryDialog.setTitle(R.string.request_battery_opt);
+        batteryDialog.setMessage(R.string.warning_battery_opt);
+        batteryDialog.setCancelable(true);
+
+        batteryDialog.setPositiveButton(
+                R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        batteryIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                        startActivity(batteryIntent);
+                    }
+                });
+
+        batteryDialog.setNegativeButton(
+                R.string.no,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = batteryDialog.create();
+        alert.show();
     }
 
     public boolean getBackgroundStatus() {
@@ -206,11 +245,11 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getString(R.string.bluetooth_state))){
+        if (key.equals(getString(R.string.bluetooth_state))) {
             sharedPreferences.getBoolean(key, false);
         }
         if (key.equals("app_state")) {
-           sharedPreferences.getBoolean(key, true);
-       }
+            sharedPreferences.getBoolean(key, true);
+        }
     }
 }

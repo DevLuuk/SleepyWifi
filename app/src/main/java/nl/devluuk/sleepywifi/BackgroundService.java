@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 public class BackgroundService extends Service {
 
-    private static final String TAG = BackgroundService.class.getSimpleName();
     protected ScreenReceiver screenReciever;
 
     @Override
@@ -53,8 +52,6 @@ public class BackgroundService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(this.screenReciever, filter);
         new DismissNotification(this).execute();
-        // remove start notification
-        //stopForeground(false);
     }
 
     private class DismissNotification extends AsyncTask<Void, Void, Void> {
@@ -69,20 +66,11 @@ public class BackgroundService extends Service {
         protected Void doInBackground(Void... params) {
             try {
                 TimeUnit.SECONDS.sleep(5);
-                //Thread.sleep(5000);
                 stopForeground(true);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             return null;
-        }
-
-        protected void onProgressUpdate(Void... progress) {
-
-        }
-
-        protected void onPostExecute(Void result) {
-
         }
     }
 
