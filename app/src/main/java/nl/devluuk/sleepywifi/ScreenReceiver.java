@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -23,7 +22,7 @@ public class ScreenReceiver extends BroadcastReceiver {
     boolean bluetoothWasOn = false;
     boolean bluetoothState;
     int delayTime;
-    boolean appState;
+    boolean appState = false;
     private static final String TAG = ScreenReceiver.class.getSimpleName();
 
     @Override
@@ -32,13 +31,14 @@ public class ScreenReceiver extends BroadcastReceiver {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         bluetoothState = prefs.getBoolean(context.getResources().getString(R.string.bluetooth_state), false);
-        appState = prefs.getBoolean(context.getResources().getString(R.string.app_state), true);
+        appState = prefs.getBoolean(context.getResources().getString(R.string.app_state), false);
         delayTime = prefs.getInt(context.getResources().getString(R.string.key_power_off_time), 1);
 
         PackageManager pm = context.getPackageManager();
         final boolean deviceHasBluetooth = pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH);
 
-        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+        if (appState) {
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 if (wifiManager.isWifiEnabled()) {
                     //new Sleep(this).execute();
                     wifiManager.setWifiEnabled(false);
@@ -56,19 +56,21 @@ public class ScreenReceiver extends BroadcastReceiver {
                         }
                     }
                 }
-        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-            if (wifiWasOn) {
-                wifiManager.setWifiEnabled(true);
-            }
-            if (bluetoothState) {
-                if (deviceHasBluetooth) {
-                    if (bluetoothWasOn) {
-                        bluetoothAdapter.enable();
+            } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+                if (wifiWasOn) {
+                    wifiManager.setWifiEnabled(true);
+                }
+                if (bluetoothState) {
+                    if (deviceHasBluetooth) {
+                        if (bluetoothWasOn) {
+                            bluetoothAdapter.enable();
+                        }
                     }
                 }
             }
         }
     }
+
     private class Sleep extends AsyncTask<Void, Void, Void> {
 
         private WeakReference<ScreenReceiver> activityReference;
