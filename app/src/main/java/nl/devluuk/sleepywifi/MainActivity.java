@@ -1,7 +1,6 @@
 package nl.devluuk.sleepywifi;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -153,16 +152,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void showAlertDialog(Context context) {
         final Intent batteryIntent = new Intent();
         AlertDialog.Builder batteryDialog = new AlertDialog.Builder(context);
@@ -189,10 +178,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
         AlertDialog alert = batteryDialog.create();
         alert.show();
-    }
-
-    public boolean getBackgroundStatus() {
-        return status = isMyServiceRunning(BackgroundService.class);
     }
 
     public boolean checkPrefStatus(String key) {
