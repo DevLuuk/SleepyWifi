@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -22,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class MainActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -248,8 +246,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         if (key.equals(getString(R.string.bluetooth_state))) {
             sharedPreferences.getBoolean(key, false);
         }
-        if (key.equals("app_state")) {
-            sharedPreferences.getBoolean(key, true);
+        if (key.equals(getString(R.string.app_state))) {
+            sharedPreferences.getBoolean(key, false);
         }
     }
 }
