@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             setStateText(stateText, stateDesc);
 
         } else {
-            startService(new Intent(this, BackgroundService.class));
+            startForegroundService(new Intent(this, BackgroundService.class));
             setPreference(true);
 
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
@@ -137,7 +137,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             checkIgnoringBattery();
-            startService(new Intent(this, BackgroundService.class));
+            startForegroundService(new Intent(this, BackgroundService.class));
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
 
             image.setImageDrawable(playIcon);
