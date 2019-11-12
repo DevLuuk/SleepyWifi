@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-        status = prefs.getBoolean(getResources().getString(R.string.app_state), true);
+        status = prefs.getBoolean(getResources().getString(R.string.app_state), false);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
     public boolean checkPrefStatus(String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return status = prefs.getBoolean(key, true);
+        return status = prefs.getBoolean(key, false);
     }
 
     public void setPreference(boolean status) {
