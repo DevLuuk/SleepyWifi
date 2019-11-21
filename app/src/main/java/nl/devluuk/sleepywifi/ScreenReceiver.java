@@ -30,30 +30,28 @@ public class ScreenReceiver extends BroadcastReceiver {
         if (appState) {
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 if (wifiManager.isWifiEnabled()) {
+                    new Sleep(this).execute();
                     wifiManager.setWifiEnabled(false);
                     wifiWasOn = true;
                 } else {
                     wifiWasOn = false;
                 }
-                if (bluetoothState) {
-                    if (deviceHasBluetooth) {
-                        if (bluetoothAdapter.isEnabled()) {
-                            bluetoothAdapter.disable();
-                            bluetoothWasOn = true;
-                        } else {
-                            bluetoothWasOn = false;
-                        }
+                if (bluetoothState && deviceHasBluetooth) {
+                    if (bluetoothAdapter.isEnabled()) {
+                        bluetoothAdapter.disable();
+                        bluetoothWasOn = true;
+                    } else {
+                        bluetoothWasOn = false;
                     }
+
                 }
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                 if (wifiWasOn) {
                     wifiManager.setWifiEnabled(true);
                 }
-                if (bluetoothState) {
-                    if (deviceHasBluetooth) {
-                        if (bluetoothWasOn) {
-                            bluetoothAdapter.enable();
-                        }
+                if (bluetoothState && deviceHasBluetooth) {
+                    if (bluetoothWasOn) {
+                        bluetoothAdapter.enable();
                     }
                 }
             }
