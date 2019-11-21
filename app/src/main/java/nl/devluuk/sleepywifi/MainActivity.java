@@ -37,6 +37,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         setContentView(R.layout.activity_main);
 
         final ImageView imageButton = findViewById(R.id.powerButton);
+        powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         checkPrefOnStart(imageButton);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +133,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             checkIgnoringBattery();
