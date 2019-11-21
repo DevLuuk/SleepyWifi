@@ -6,11 +6,11 @@
         android:title="@string/pref_bluetooth_title"
         android:summary="@string/pref_description_enable_bluetooth"/>
 
-<!--    <ListPreference-->
-<!--        android:defaultValue="1"-->
-<!--        android:entries="@array/pref_power_off_time"-->
-<!--        android:entryValues="@array/pref_power_off_values"-->
-<!--        android:key="@string/key_power_off_time"-->
-<!--        android:summary="@string/pref_delay_power_off_detail"-->
-<!--        android:title="@string/pref_delay_power_off" />-->
+    <ListPreference
+        android:defaultValue="10"
+        android:entries="@array/pref_power_off_time"
+        android:entryValues="@array/pref_power_off_values"
+        android:key="@string/key_power_off_time"
+        android:summary="@string/pref_delay_power_off_detail"
+        android:title="@string/pref_delay_power_off" />
 </PreferenceScreen>

@@ -61,12 +61,14 @@
     <string-array name="pref_power_off_time">
         <item>1 second</item>
         <item>5 seconds</item>
+        <item>10 seconds</item>
         <item>20 seconds</item>
         <item>60 seconds</item>
     </string-array>
     <string-array name="pref_power_off_values">
         <item>1</item>
         <item>5</item>
+        <item>10</item>
         <item>20</item>
         <item>60</item>
     </string-array>
