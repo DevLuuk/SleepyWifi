@@ -18,7 +18,7 @@
     <string name="pref_header_general">Standaard</string>
     <string name="pref_description_enable_bluetooth">Zet Bluetooth uit in slaapmodus</string>
     <string name="pref_bluetooth_title">Zet Bluetooth slapen aan</string>
-    <string name="pref_keep_wifi_on">Hou de Wifi aan tijdens slaapmodus</string>
+<!--    <string name="pref_keep_wifi_on">Hou de Wifi aan tijdens slaapmodus</string>-->
     <string name="app_state_desc1">Wifi staat</string>
     <string name="app_state_desc2">Wanneer de telefoon in slaapmodus is</string>
     <string name="no">Nee</string>
