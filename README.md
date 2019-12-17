@@ -1,5 +1,5 @@
 # SleepyWifi
-This Android app brings back the 'turn wifi off when the phone is in sleepmode' option for Android 8.1 or higher.
+This Android app brings back the 'turn wifi off when the phone is in sleepmode' option for Android 8.1 or Android 9.0.
 After you have opened the app the apps service runs in the background. The app works for Android devices with version 6.0 or higher.
 
 ## Why this app?
