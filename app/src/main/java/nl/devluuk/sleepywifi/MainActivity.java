@@ -1,7 +1,6 @@
 package nl.devluuk.sleepywifi;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -38,6 +38,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         setContentView(R.layout.activity_main);
 
         final ImageView imageButton = findViewById(R.id.powerButton);
+        powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         checkPrefOnStart(imageButton);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +110,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             setStateText(stateText, stateDesc);
 
         } else {
-            startService(new Intent(this, BackgroundService.class));
+            startForegroundService(new Intent(this, BackgroundService.class));
             setPreference(true);
 
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
@@ -122,9 +123,16 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
     private void checkIgnoringBattery() {
         String packageName = this.getPackageName();
-        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
-            showAlertDialog(this);
+        PowerManager pm = getSystemService(PowerManager.class);
+
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            Intent i =
+                    new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                            .setData(Uri.parse("package:" + packageName));
+
+            startActivity(i);
         }
+
     }
 
     public void checkPrefOnStart(ImageView image) {
@@ -133,11 +141,10 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 
         if (checkPrefStatus(getResources().getString(R.string.app_state))) {
             checkIgnoringBattery();
-            startService(new Intent(this, BackgroundService.class));
+            startForegroundService(new Intent(this, BackgroundService.class));
             playIcon = getResources().getDrawable(R.drawable.ic_launcher_round, null);
 
             image.setImageDrawable(playIcon);
@@ -151,16 +158,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             setStateText(stateText, stateDesc);
         }
 
-    }
-
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void showAlertDialog(Context context) {
@@ -189,10 +186,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
         AlertDialog alert = batteryDialog.create();
         alert.show();
-    }
-
-    public boolean getBackgroundStatus() {
-        return status = isMyServiceRunning(BackgroundService.class);
     }
 
     public boolean checkPrefStatus(String key) {

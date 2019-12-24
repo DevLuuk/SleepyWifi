@@ -7,21 +7,17 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
-import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class BackgroundService extends Service {
 
-    protected ScreenReceiver screenReciever;
+    protected ScreenReceiver screenReceiver;
 
     @Override
     public void onCreate() {
@@ -47,10 +43,10 @@ public class BackgroundService extends Service {
 
 
         final IntentFilter filter = new IntentFilter();
-        this.screenReciever = new ScreenReceiver();
+        this.screenReceiver = new ScreenReceiver();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
-        registerReceiver(this.screenReciever, filter);
+        registerReceiver(this.screenReceiver, filter);
         new DismissNotification(this).execute();
     }
 
@@ -77,18 +73,15 @@ public class BackgroundService extends Service {
 
     @Override
     public void onDestroy() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (screenReciever != null) {
-            unregisterReceiver(screenReciever);
-            screenReciever = null;
+        if (screenReceiver != null) {
+            unregisterReceiver(screenReceiver);
+            screenReceiver = null;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             stopForeground(true);
         } else {
             stopSelf();
         }
-        //setPreference(false);
-        //Log.i(TAG, "BackgroundService is off");
         super.onDestroy();
     }
 
