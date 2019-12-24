@@ -234,5 +234,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         if (key.equals(getString(R.string.app_state))) {
             sharedPreferences.getBoolean(key, false);
         }
+        if(key.equals(getString(R.string.key_power_off_time))){
+            sharedPreferences.getString(key, "0");
+        }
     }
 }
