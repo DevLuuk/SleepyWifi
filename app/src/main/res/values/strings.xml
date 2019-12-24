@@ -45,7 +45,6 @@
     <string name="pref_delay_power_off_detail">Choose how long the delay is for turning off the wifi</string>
     <string-array name="pref_power_off_time">
         <item>Off</item>
-        <item>5 seconds</item>
         <item>10 seconds</item>
         <item>20 seconds</item>
         <item>1 minute</item>
