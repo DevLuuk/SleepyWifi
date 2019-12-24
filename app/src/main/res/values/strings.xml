@@ -37,24 +37,4 @@
     <string name="pref_bluetooth_title">Enable Bluetooth Sleeping</string>
     <string name="pref_description_enable_bluetooth">Turn Bluetooth off when the phone is in sleepmode
     </string>
-    
-    <!--Power off Key -->
-    <string name="key_power_off_time" translatable="false">power_off</string>
-    <!-- /Key -->
-    <string name="pref_delay_power_off">Delay Wifi turning off</string>
-    <string name="pref_delay_power_off_detail">Choose how long the delay is for turning off the wifi</string>
-    <string-array name="pref_power_off_time">
-        <item>Off</item>
-        <item>10 seconds</item>
-        <item>20 seconds</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-    </string-array>
-    <string-array name="pref_power_off_values">
-        <item>0</item>
-        <item>10</item>
-        <item>20</item>
-        <item>60</item>
-        <item>300</item>
-    </string-array>
 </resources>
