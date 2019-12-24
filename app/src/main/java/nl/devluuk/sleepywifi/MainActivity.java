@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -122,9 +123,16 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
     private void checkIgnoringBattery() {
         String packageName = this.getPackageName();
-        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
-            showAlertDialog(this);
+        PowerManager pm = getSystemService(PowerManager.class);
+
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            Intent i =
+                    new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                            .setData(Uri.parse("package:" + packageName));
+
+            startActivity(i);
         }
+
     }
 
     public void checkPrefOnStart(ImageView image) {
