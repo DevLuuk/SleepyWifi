@@ -8,8 +8,8 @@ Google has removed the 'turn wifi off when the phone is in sleepmode' options in
 ### This app does NOT work on Android 10 or higher!!!
 
 ## How to install?
- 1. Download on [Google Play](https://play.google.com/store/apps/details?id=nl.devluuk.sleepywifi)
- 2. Download on [F-Droid](https://f-droid.org/packages/nl.devluuk.sleepywifi/)
+ 1. Download on [F-Droid](https://f-droid.org/packages/nl.devluuk.sleepywifi/)
+ 2. Download on Google Play [App listing currently down for app maintenance]
  2. Download `.apk` from [Github](https://github.com/DevLuuk/SleepyWifi/releases)
 
 ## License
